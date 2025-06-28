@@ -7,6 +7,7 @@ import useProperties from "../../hooks/useProperties.jsx";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { createResidency } from "../../utils/api";
+
 const Facilities = ({
   prevStep,
   propertyDetails,
@@ -42,18 +43,32 @@ const Facilities = ({
 
   // ==================== upload logic
   const { user } = useAuth0();
-  const {
-    userDetails: { token },
-  } = useContext(UserDetailContext);
+  // console.log('user', user);
+
+  const { getAccessTokenSilently } = useAuth0();
+
   const { refetch: refetchProperties } = useProperties();
 
-  const {mutate, isLoading} = useMutation({
-    mutationFn: ()=> createResidency({
-        ...propertyDetails, facilities: {bedrooms, parkings , bathrooms},
-    }, token),
-    onError: ({ response }) => toast.error(response.data.message, {position: "bottom-right"}),
-    onSettled: ()=> {
-      toast.success("Added Successfully", {position: "bottom-right"});
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async () => {
+      const auth0Token = await getAccessTokenSilently({
+        audience: "http://localhost:8001", // match your API identifier
+        cacheMode: "off", // forces fresh token
+      });
+     console.log(JSON.parse(atob(auth0Token.split('.')[0])));
+
+      return createResidency(
+        {
+          ...propertyDetails,
+          facilities: { bedrooms, parkings, bathrooms },
+        },
+        auth0Token
+      );
+    },
+    onError: ({ response }) =>
+      toast.error(response.data.message, { position: "bottom-right" }),
+    onSettled: () => {
+      toast.success("Added Successfully", { position: "bottom-right" });
       setPropertyDetails({
         title: "",
         description: "",
@@ -68,13 +83,12 @@ const Facilities = ({
           bathrooms: 0,
         },
         userEmail: user?.email,
-      })
-      setOpened(false)
-      setActiveStep(0)
-      refetchProperties()
-    }
-
-  })
+      });
+      setOpened(false);
+      setActiveStep(0);
+      refetchProperties();
+    },
+  });
 
   return (
     <Box maw="30%" mx="auto" my="sm">

@@ -70,7 +70,7 @@ const Property = () => {
       <div className="flexColStart paddings innerWidth property-container">
         {/* like button */}
         <div className="like">
-          <Heart id={id}/>
+          <Heart id={id} />
         </div>
 
         {/* image */}
@@ -83,7 +83,7 @@ const Property = () => {
             <div className="flexStart head">
               <span className="primaryText">{data?.title}</span>
               <span className="orangeText" style={{ fontSize: "1.5rem" }}>
-                $ {data?.price}
+                ₹ {data?.price}
               </span>
             </div>
 
@@ -119,11 +119,60 @@ const Property = () => {
             <div className="flexStart" style={{ gap: "1rem" }}>
               <MdLocationPin size={25} />
               <span className="secondaryText">
-                {data?.address}{" "}
-                {data?.city}{" "}
-                {data?.country}
+                {data?.address} {data?.city} {data?.country}
               </span>
             </div>
+
+            {/* local advantages */}
+            {data?.localAdvantages?.length > 0 && (
+              <div style={{ marginTop: "2rem" }}>
+                <h3 className="primaryText">Local Advantages</h3>
+                <ul
+                  className="secondaryText"
+                  style={{ paddingLeft: "1.5rem", marginTop: "0.5rem" }}
+                >
+                  {data.localAdvantages.map((adv, idx) => (
+                    <li key={idx}>{adv}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* salient features */}
+            {data?.salientFeatures?.length > 0 && (
+              <div style={{ marginTop: "2rem" }}>
+                <h3 className="primaryText">Salient Features</h3>
+                <ul
+                  className="secondaryText"
+                  style={{ paddingLeft: "1.5rem", marginTop: "0.5rem" }}
+                >
+                  {data.salientFeatures.map((feature, idx) => (
+                    <li key={idx}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Pdf */}
+            {data?.pdfUrl && (
+              <div style={{ marginTop: "2rem" }}>
+                <h3 className="primaryText">Property Brochure</h3>
+                <a
+                  href={data.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-block",
+                    marginTop: "0.5rem",
+                    textDecoration: "underline",
+                    color: "#1F3E72",
+                    fontWeight: "bold",
+                  }}
+                >
+                  View PDF Brochure
+                </a>
+              </div>
+            )}
 
             {/* booking button */}
             {bookings?.map((booking) => booking.id).includes(id) ? (

@@ -35,5 +35,5 @@ model Residency {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    @@unique(fields: [address, userEmail])
+    @@unique(fields: [userEmail])
 }

@@ -55,12 +55,13 @@ const Facilities = ({
         audience: "http://localhost:8001", // match your API identifier
         cacheMode: "off", // forces fresh token
       });
-     console.log(JSON.parse(atob(auth0Token.split('.')[0])));
+      console.log(JSON.parse(atob(auth0Token.split(".")[0])));
 
       return createResidency(
         {
           ...propertyDetails,
           facilities: { bedrooms, parkings, bathrooms },
+          userEmail: user?.email,
         },
         auth0Token
       );
@@ -77,6 +78,9 @@ const Facilities = ({
         city: "",
         address: "",
         image: null,
+        pdfUrl: "",
+        localAdvantages: [],
+        salientFeatures: [],
         facilities: {
           bedrooms: 0,
           parkings: 0,

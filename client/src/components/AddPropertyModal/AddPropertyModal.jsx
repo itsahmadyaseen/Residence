@@ -1,14 +1,18 @@
-import { Container, Modal, Stepper } from "@mantine/core";
+import { Button, Container, Modal, Stepper } from "@mantine/core";
 import React, { useState } from "react";
 import AddLocation from "../AddLocation/AddLocation";
 import { useAuth0 } from "@auth0/auth0-react";
 import UploadImage from "../UploadImage/UploadImage";
+import UploadPDF from "../UploadPdf/UploadPdf";
 import BasicDetails from "../BasicDetails/BasicDetails";
 import Facilities from "../Facilities/Facilities";
+import AdvantagesFeatures from "../AdvantagesFeatures/AdvantagesFeatures";
 
 const AddPropertyModal = ({ opened, setOpened }) => {
   const [active, setActive] = useState(0);
-  const { user } = useAuth0();  
+
+  const { user } = useAuth0();
+  console.log("email", user);
 
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
@@ -18,16 +22,21 @@ const AddPropertyModal = ({ opened, setOpened }) => {
     city: "",
     address: "",
     image: null,
+    pdfUrl: "",
+    localAdvantages: [],
+    salientFeatures: [],
     facilities: {
       bedrooms: 0,
       parkings: 0,
       bathrooms: 0,
     },
-    userEmail: user?.email,
+    userEmail: "",
   });
 
   const nextStep = () => {
-    setActive((current) => (current < 4 ? current + 1 : current));
+    console.log();
+    
+    setActive((current) => (current < 6 ? current + 1 : current));
   };
 
   const prevStep = () => {
@@ -63,6 +72,14 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
+          <Stepper.Step label="PDF" description="Upload Brochure">
+            <UploadPDF
+              prevStep={prevStep}
+              nextStep={nextStep}
+              propertyDetails={propertyDetails}
+              setPropertyDetails={setPropertyDetails}
+            />
+          </Stepper.Step>
           <Stepper.Step label="Basics" description="Details">
             <BasicDetails
               prevStep={prevStep}
@@ -70,6 +87,34 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               propertyDetails={propertyDetails}
               setPropertyDetails={setPropertyDetails}
             />
+          </Stepper.Step>
+          <Stepper.Step label="Highlights" description="Advantages">
+            <AdvantagesFeatures
+              label="Local Advantages"
+              values={propertyDetails.localAdvantages}
+              setValues={(newList) =>
+                setPropertyDetails({
+                  ...propertyDetails,
+                  localAdvantages: newList,
+                })
+              }
+            />
+            <AdvantagesFeatures
+              label="Salient Features"
+              values={propertyDetails.salientFeatures}
+              setValues={(newList) =>
+                setPropertyDetails({
+                  ...propertyDetails,
+                  salientFeatures: newList,
+                })
+              }
+            />
+            <Button mt="md" onClick={nextStep}>
+              Next
+            </Button>
+            <Button variant="light" mt="md" onClick={prevStep}>
+              Back
+            </Button>
           </Stepper.Step>
 
           <Stepper.Step>
@@ -81,6 +126,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               setActiveStep={setActive}
             />
           </Stepper.Step>
+
           <Stepper.Completed>
             Completed, click back button to get to previous step
           </Stepper.Completed>

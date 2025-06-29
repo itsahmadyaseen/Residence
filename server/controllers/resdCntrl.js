@@ -12,11 +12,14 @@ export const createResidency = asyncHandler(async (req, res) => {
     city,
     facilities,
     image,
+    pdfUrl,
     userEmail,
+    localAdvantages,
+    salientFeatures,
   } = req.body;
 
-  console.log(req.body);
-  console.log(req.auth);
+  // console.log(req.body.userEmail);
+
   try {
     const residency = await prisma.residency.create({
       data: {
@@ -27,7 +30,10 @@ export const createResidency = asyncHandler(async (req, res) => {
         country,
         city,
         facilities,
-        image,
+        image: image || "",
+        pdfUrl: pdfUrl || "",
+        localAdvantages,
+        salientFeatures,
         owner: { connect: { email: userEmail } },
       },
     });

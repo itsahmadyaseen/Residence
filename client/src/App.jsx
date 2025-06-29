@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 
@@ -13,9 +13,22 @@ import Property from "./pages/Property/Property";
 import UserDetailContext from "./context/UserDetailContext";
 import Bookings from "./pages/Bookings/Bookings";
 import Favourites from "./pages/Favourites/Favourites";
+import { syncUser } from "./utils/api";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
   const queryClient = new QueryClient();
+
+  const hasSynced = useRef(false);
+
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated && !hasSynced.current) {
+      hasSynced.current = true;
+      syncUser(user, getAccessTokenSilently);
+    }
+  }, [isAuthenticated, getAccessTokenSilently, user]);
 
   const [userDetails, setUserDetails] = useState({
     favourites: [],

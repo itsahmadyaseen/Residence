@@ -171,3 +171,23 @@ export const createResidency = async (data, token) => {
     throw error;
   }
 };
+
+export const syncUser = async (user, getAccessTokenSilently) => {
+  try {
+    const token = await getAccessTokenSilently({
+      audience: "http://localhost:8001", // your API identifier
+    });
+console.log('Sync user running');
+
+    await fetch("http://localhost:8000/api/user/createUser", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+  } catch (error) {
+    console.error("Failed to sync user:", error);
+  }
+};

@@ -27,7 +27,7 @@ const Layout = () => {
 
       const res = await getAccessTokenWithPopup({
         authorizationParams: {
-          audience: "http://localhost:8000",
+          audience: "http://localhost:8001",
           scope: "openid profile email",
         },
       });

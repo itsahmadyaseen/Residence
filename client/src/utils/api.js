@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const api = axios.create({
   // baseURL: "https://full-stack-real-estate-youtube.vercel.app/api",
-  baseURL: "http://localhost:8000/api",
+  baseURL: import.meta.env.VITE_BACKEND_BASEURL,
 });
 
 export const getAllProperties = async () => {
@@ -177,15 +177,13 @@ export const syncUser = async (user, getAccessTokenSilently) => {
     const token = await getAccessTokenSilently({
       audience: "http://localhost:8001", // your API identifier
     });
-console.log('Sync user running');
+    console.log("Sync user running");
 
-    await fetch("http://localhost:8000/api/user/createUser", {
-      method: "POST",
+    await api.post("/user/createUser", user, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
     });
   } catch (error) {
     console.error("Failed to sync user:", error);

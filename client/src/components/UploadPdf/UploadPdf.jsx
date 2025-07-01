@@ -22,7 +22,7 @@ const UploadPDF = ({
     cloudinaryRef.current = window.cloudinary;
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
-        cloudName: "data-ahmad",
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
         uploadPreset: "ml_default",
         maxFiles: 1,
         resourceType: "raw", // ✅ important for non-images like PDF

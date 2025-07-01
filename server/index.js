@@ -11,31 +11,18 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({ origin: true, credentials: true }));
+
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://real-estate-web-liard.vercel.app",
-  "https://www.real-estate-web-liard.vercel.app",
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.get("/test-cors", (req, res) => {
+  res.json({ message: "CORS works!" });
 });
 
 app.use("/api/user", userRoute);
 app.use("/api/residency", residencyRoute);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

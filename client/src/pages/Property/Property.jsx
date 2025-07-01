@@ -55,11 +55,11 @@ const Property = () => {
     );
   }
 
-  if (isError) {
+  if (isError) {          // TODO : Handle error 
     return (
       <div className="wrapper">
         <div className="flexCenter paddings">
-          <span>Error while fetching the property details</span>
+          {/* <span>Error while fetching the property details</span> */}
         </div>
       </div>
     );

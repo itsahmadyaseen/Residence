@@ -30,7 +30,7 @@ const Hero = () => {
 
           <SearchBar/>
 
-          <div className="flexCenter stats">
+          {/* <div className="flexCenter stats">
             <div className="flexColCenter stat">
               <span>
                 <CountUp start={8800} end={9000} duration={4} /> <span>+</span>
@@ -51,7 +51,7 @@ const Hero = () => {
               </span>
               <span className="secondaryText">Awards Winning</span>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* right side */}

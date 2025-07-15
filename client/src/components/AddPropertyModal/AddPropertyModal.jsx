@@ -12,7 +12,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
   const [active, setActive] = useState(0);
 
   const { user } = useAuth0();
-  console.log("email", user);
+  // console.log("email", user);
 
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",

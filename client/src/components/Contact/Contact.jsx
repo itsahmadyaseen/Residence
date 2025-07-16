@@ -2,7 +2,7 @@ import React from "react";
 import "./Contact.css";
 import { MdCall } from "react-icons/md";
 import { BsFillChatDotsFill } from "react-icons/bs";
-import {HiChatBubbleBottomCenter} from 'react-icons/hi2'
+import { HiChatBubbleBottomCenter } from "react-icons/hi2";
 const Contact = () => {
   return (
     <div id="contact-us" className="c-wrapper">
@@ -26,10 +26,12 @@ const Contact = () => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">Call</span>
-                    <span className="secondaryText">+91 82073 56721</span>
+                    <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">Call now</div>
+                <a href="tel:+918207356721" className="flexCenter button">
+                  Call now
+                </a>
               </div>
 
               <div className="flexColCenter mode">
@@ -39,10 +41,12 @@ const Contact = () => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">Chat</span>
-                    <span className="secondaryText">+91 82073 56721</span>
+                    <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">Chat now</div>
+                <a href="tel:+918207356721" className="flexCenter button">
+                  Chat now
+                </a>
               </div>
             </div>
 
@@ -55,10 +59,12 @@ const Contact = () => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">Video Call</span>
-                    <span className="secondaryText">+91 82073 56721</span>
+                    <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">Video Call now</div>
+                <a href="tel:+918207356721" className="flexCenter button">
+                  Video Call now
+                </a>
               </div>
 
               <div className="flexColCenter mode">
@@ -68,10 +74,17 @@ const Contact = () => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">Message</span>
-                    <span className="secondaryText">+91 82073 56721</span>
+                    <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">Message now</div>
+                <a
+                  href="https://wa.me/918207356721"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flexCenter button"
+                >
+                  Message now
+                </a>
               </div>
             </div>
           </div>

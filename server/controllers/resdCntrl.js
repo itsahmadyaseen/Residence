@@ -14,6 +14,7 @@ export const createResidency = asyncHandler(async (req, res) => {
     image,
     pdfUrl,
     userEmail,
+    type,
     localAdvantages,
     salientFeatures,
   } = req.body;
@@ -32,24 +33,37 @@ export const createResidency = asyncHandler(async (req, res) => {
         facilities,
         image: image || "",
         pdfUrl: pdfUrl || "",
+        type: type || "PLOT",
         localAdvantages,
         salientFeatures,
         owner: { connect: { email: userEmail } },
       },
     });
-
+    console.log("Property created");
     res.send({ message: "Residency created successfully", residency });
   } catch (err) {
-    if (err.code === "P2002") {
-      throw new Error("A residency with address already there");
-    }
     throw new Error(err.message);
   }
 });
 
 // function to get all the documents/residencies
-export const getAllResidencies = asyncHandler(async (req, res) => {
+export const getAllPlotResidencies = asyncHandler(async (req, res) => {
   const residencies = await prisma.residency.findMany({
+    where: {
+      type: "PLOT",
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  res.send(residencies);
+});
+
+export const getAllRentalResidencies = asyncHandler(async (req, res) => {
+  const residencies = await prisma.residency.findMany({
+    where: {
+      type: "RENTAL",
+    },
     orderBy: {
       createdAt: "desc",
     },

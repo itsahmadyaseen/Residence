@@ -17,6 +17,11 @@ model User {
     ownedResidencies Residency[] @relation("Owner")
 }
 
+enum ResidencyType{
+    PLOT
+    RENTAL
+}
+
 model Residency {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     title       String
@@ -31,9 +36,10 @@ model Residency {
     salientFeatures   String[]
     facilities  Json
     userEmail   String
+    type        ResidencyType
     owner       User     @relation("Owner", fields: [userEmail], references: [email])
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    @@unique(fields: [userEmail])
+    
 }

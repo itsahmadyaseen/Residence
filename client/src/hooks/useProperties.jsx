@@ -1,19 +1,24 @@
-import React from "react";
 import { useQuery } from "react-query";
-import { getAllProperties } from "../utils/api";
+import { getAllPlotProperties, getAllRentalProperties } from "../utils/api";
 
 const useProperties = () => {
-  const { data, isLoading, isError, refetch } = useQuery(
-    "allProperties",
-    getAllProperties,
-    { refetchOnWindowFocus: false }
-  );
+  const plotsQuery = useQuery("plots", getAllPlotProperties, {
+    refetchOnWindowFocus: false,
+  });
+
+  const rentalsQuery = useQuery("rentals", getAllRentalProperties, {
+    refetchOnWindowFocus: false,
+  });
 
   return {
-    data,
-    isError,
-    isLoading,
-    refetch,
+    plots: plotsQuery.data || [],
+    rentals: rentalsQuery.data || [],
+    isLoading: plotsQuery.isLoading || rentalsQuery.isLoading,
+    isError: plotsQuery.isError || rentalsQuery.isError,
+    refetchAll: () => {
+      plotsQuery.refetch();
+      rentalsQuery.refetch();
+    },
   };
 };
 

@@ -9,35 +9,42 @@ const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
   const { getAll } = useCountries();
   const form = useForm({
     initialValues: {
+      type: propertyDetails?.type || "",
       country: propertyDetails?.country,
       city: propertyDetails?.city,
       address: propertyDetails?.address,
     },
 
     validate: {
+      type: (value) => validateString(value),
       country: (value) => validateString(value),
       city: (value) => validateString(value),
       address: (value) => validateString(value),
     },
   });
 
+  const { type, country, city, address } = form.values;
 
-  const { country, city, address } = form.values;
-
-
-  const handleSubmit = ()=> {
-    const {hasErrors} = form.validate();
-    if(!hasErrors) {
-        setPropertyDetails((prev)=> ({...prev, city, address, country}))
-        nextStep()
+  const handleSubmit = () => {
+    const { hasErrors } = form.validate();
+    if (!hasErrors) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        type,
+        country,
+        city,
+        address,
+      }));
+      nextStep();
     }
-  }
+  };
+
   return (
     <form
-    onSubmit={(e)=>{
+      onSubmit={(e) => {
         e.preventDefault();
-        handleSubmit()
-    }}
+        handleSubmit();
+      }}
     >
       <div
         className="flexCenter"
@@ -52,6 +59,18 @@ const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
         {/* inputs */}
 
         <div className="flexColStart" style={{ flex: 1, gap: "1rem" }}>
+          <Select
+            w={"100%"}
+            withAsterisk
+            label="Property Type"
+            clearable
+            data={[
+              { label: "Plot", value: "PLOT" },
+              { label: "Rental", value: "RENTAL" },
+            ]}
+            {...form.getInputProps("type", { type: "input" })}
+          />
+
           <Select
             w={"100%"}
             withAsterisk

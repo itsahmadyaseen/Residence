@@ -7,9 +7,25 @@ export const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_BASEURL,
 });
 
-export const getAllProperties = async () => {
+export const getAllPlotProperties = async () => {
   try {
-    const response = await api.get("/residency/allresd", {
+    const response = await api.get("/residency/allPlotResd", {
+      timeout: 10 * 1000,
+    });
+
+    if (response.status === 400 || response.status === 500) {
+      throw response.data;
+    }
+    return response.data;
+  } catch (error) {
+    toast.error("Something went wrong");
+    throw error;
+  }
+};
+
+export const getAllRentalProperties = async () => {
+  try {
+    const response = await api.get("/residency/allRentalResd", {
       timeout: 10 * 1000,
     });
 

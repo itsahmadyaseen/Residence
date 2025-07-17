@@ -6,48 +6,60 @@ import "./Residencies.css";
 import { sliderSettings } from "../../utils/common";
 import PropertyCard from "../PropertyCard/PropertyCard";
 import useProperties from "../../hooks/useProperties";
-import {PuffLoader} from 'react-spinners'
+import { PuffLoader } from "react-spinners";
 
 const Residencies = () => {
+  const { plots, rentals, isLoading, isError } = useProperties();
 
-  const {data, isError, isLoading} = useProperties()
-
-  if(isError){
-    return(
-      <div className='wrapper'>
+  if (isError) {
+    return (
+      <div className="wrapper">
         <span>Error while fetching data</span>
       </div>
-    )
+    );
   }
 
-  if(isLoading){
-    return(
-      <div className="wrapper flexCenter" style={{height: "60vh"}}>
+  if (isLoading) {
+    return (
+      <div className="wrapper flexCenter" style={{ height: "60vh" }}>
         <PuffLoader
-        height="80"
-        width="80"
-        radius={1}
-        color="#4066ff"
-        aria-label="puff-loading"
+          height="80"
+          width="80"
+          radius={1}
+          color="#4066ff"
+          aria-label="puff-loading"
         />
       </div>
-    )
+    );
   }
-
 
   return (
     <div id="residencies" className="r-wrapper">
       <div className="paddings innerWidth r-container">
+        {/* ==== Plots ==== */}
         <div className="flexColStart r-head">
           <span className="orangeText">Best Choices</span>
           <span className="primaryText">Popular Plots</span>
         </div>
         <Swiper {...sliderSettings}>
           <SlideNextButton />
-          {/* slider */}
-          {data.slice(0, 8).map((card, i) => (
-            <SwiperSlide key={i}>
-              <PropertyCard card={card}/>
+          {plots.slice(0, 8).map((card, i) => (
+            <SwiperSlide key={`plot-${i}`}>
+              <PropertyCard card={card} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* ==== Rentals ==== */}
+        <div className="flexColStart r-head" style={{ marginTop: "4rem" }}>
+          <span className="orangeText">Top Rated</span>
+          <span className="primaryText">Popular Rentals</span>
+        </div>
+        <Swiper {...sliderSettings}>
+          <SlideNextButton />
+          {rentals.slice(0, 8).map((card, i) => (
+            <SwiperSlide key={`rental-${i}`}>
+              <PropertyCard card={card} />
             </SwiperSlide>
           ))}
         </Swiper>
